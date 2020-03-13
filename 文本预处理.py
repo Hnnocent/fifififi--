@@ -1,6 +1,6 @@
 import jieba
 
-test = ""
+test = "物流系统不是信息系统"
 test_jieba = list(jieba.cut(test))
 
 with open('negative-words.txt', 'r', encoding='UTF-8') as f:

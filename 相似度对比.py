@@ -1,5 +1,8 @@
+
 import jieba
 import numpy as np
+
+'''
 
 def get_word_vector():
     str1 = input("sentance：")
@@ -27,3 +30,7 @@ def cosine():
                                                                             # 输出是数字，不会保留矩阵维度特性
 
 print(cosine())
+'''
+v1=np.array([1,2])
+v2=np.array([1,3])
+print(float(np.sum(v1 * v2)) / (np.linalg.norm(v1) * np.linalg.norm(v2)))

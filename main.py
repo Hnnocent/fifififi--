@@ -4,8 +4,8 @@ from gensim.models import word2vec
 
 sentences = word2vec.Text8Corpus('dict.txt')
 model = word2vec.Word2Vec(sentences,min_count = 1)
-simHigh=input()
-simLow=input()
+simHigh=input("请输入相似度最大阈值")
+simLow=input("请输入相似度最小阈值")
 
 #文本预处理,输入初始文本得到list
 def text_clean(test):
@@ -110,6 +110,14 @@ def DanJu(teaAnswers, stuAnswers):
 
     Score=sentenceScore(sim, s, n)
     return Score
+
+
+tea_Answers=input("请输入标准答案关键词")#输入标准答案关键词list
+stu_Answers=input("请输入学生答案")#输入学生答案
+#处理学生答案，得到学生答案关键词list
+stu_Answers=get_keywords(text_clean(stu_Answers))
+score=DanJu(tea_Answers, stu_Answers)
+print(score)
 
 
 ###以下是分句的计算模式

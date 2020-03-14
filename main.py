@@ -15,12 +15,14 @@ def text_clean(test):
         list_negative = f.read().splitlines()
 
     test_negative = [item for item in test_jieba if item in list_negative]
+    if len(test_negative) / 2 == 0:
+        with open('stopwords-chinese.txt', 'r', encoding='UTF-8') as f:
+            list_stopwords = f.read().splitlines()
 
-    with open('stopwords-chinese.txt', 'r', encoding='UTF-8') as f:
-        list_stopwords = f.read().splitlines()
-
-    test_delete = [item for item in test_jieba if item not in list_stopwords]
-    return test_delete
+        test_delete = [item for item in test_jieba if item not in list_stopwords]
+        return test_delete
+    else:
+        print("你得零分")
 
 #词向量获取,输入需要相似度对比的词语得到他们的向量
 def get_word2vec(word):

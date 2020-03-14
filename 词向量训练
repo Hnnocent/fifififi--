@@ -46,8 +46,8 @@ with open('dic.txt','r+',encoding='UTF-8') as foo:
 
 sim=model.similarity(word1,word2)
 print(sim)
-
 '''
+
 import numpy as np
 from gensim.models import word2vec
 
@@ -68,3 +68,4 @@ distance=np.dot(v1,v2)
 print(v1)
 print(v2)
 print(np.dot(v1,v2))
+

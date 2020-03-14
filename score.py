@@ -59,7 +59,8 @@ def Type(teaAnswer, stuAnswer):
         key.append(a)                 # key是标答首个关键词的list
 
     cut2 = list(jieba.cut(sen1) ) # 学生答案关键词
-    
+
+    n=0
     for item in cut2:
         for j in key:
             if j == item:

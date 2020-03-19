@@ -2,10 +2,12 @@ import jieba
 import numpy as np
 from gensim.models import word2vec
 
-sentences = word2vec.Text8Corpus('dict.txt')
-model = word2vec.Word2Vec(sentences,min_count = 1)
-simHigh=input("请输入相似度最大阈值")
-simLow=input("请输入相似度最小阈值")
+#sentences = word2vec.Text8Corpus('dict.txt')
+#model = word2vec.Word2Vec(sentences,min_count = 1)
+simHigh=0.8#input("请输入相似度最大阈值")
+simLow=0.2#input("请输入相似度最小阈值")
+keywords_numbers=2#input("请输入关键词个数")
+spare_number=1#input("请输入多备个数")
 
 #文本预处理,输入初始文本得到list
 def text_clean(test):
@@ -26,8 +28,24 @@ def text_clean(test):
 
 #词向量获取,输入需要相似度对比的词语得到他们的向量
 def get_word2vec(word):
-    vector = np.array(model[word])
-    return vector
+    sentences = word2vec.Text8Corpus('dic.txt')
+    model = word2vec.Word2Vec(sentences, min_count=1)
+    try:
+        v1 = np.array(model[word])
+
+    except:
+        fo = open("dic.txt", "a", encoding='utf-8')
+        fo.write(word)
+        fo.write("\n")
+        fo.close()
+
+    finally:
+        sentences = word2vec.Text8Corpus('dic.txt')
+        model = word2vec.Word2Vec(sentences, min_count=1)
+        v1 = np.array(model[word])
+    return v1
+    #vector = np.array(model[word])
+    #return vector
 
 #相似度计算，输入两次的词语，计算余弦值
 def get_score(w1,w2):
@@ -67,10 +85,10 @@ def get_keywords(ans):
     f.close()
     TI = list(TI.items())
     TI.sort(key=lambda x: x[-1], reverse=True)  # 由高到低排序
-    n = int(input('答案关键词数：'))
-    x = int(input('多备个数：'))
+    n=int(keywords_numbers)
+    x=int(spare_number)
 
-    print('答案关键词为：', end='')
+
     keywords = []  # 最终的关键词列表
     for i in range(len(TI)):
         high.append(TI[i][0])  # 将有IDF值的关键词按序添加在优先输出的关键词中
@@ -114,13 +132,13 @@ def DanJu(teaAnswers, stuAnswers):
     return Score
 
 
-tea_Answers=input("请输入标准答案关键词")#输入标准答案关键词list
-stu_Answers=input("请输入学生答案")#输入学生答案
+tea_Answers=["物流系统","信息系统","船舶系统"]#input("请输入标准答案关键词")#输入标准答案关键词list
+stu_Answers="物流信息系统是一个好孩子"#input("请输入学生答案")#输入学生答案
 #处理学生答案，得到学生答案关键词list
 stu_Answers=get_keywords(text_clean(stu_Answers))
 score=DanJu(tea_Answers, stu_Answers)
+print("您的最终得分是",end="")
 print(score)
-
 
 ###以下是分句的计算模式
 '''

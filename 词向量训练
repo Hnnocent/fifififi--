@@ -51,21 +51,46 @@ print(sim)
 import numpy as np
 from gensim.models import word2vec
 
+'''
 # 加载语料
-sentences = word2vec.Text8Corpus('dict.txt')
+sentences = word2vec.Text8Corpus('dic.txt')
 
 # 训练模型
 model = word2vec.Word2Vec(sentences,min_count = 1)
+word="物资信息"
 
-# 选出最相似的10个词
-v1=np.array(model['物流'])
-v2=np.array(model['信息'])
+try:
+    v1=np.array(model[word])
 
-#score=np.linalg.norm(v1-v2)
-#print(score)
+except:
+    print("Error")
+    fo = open("dic.txt", "a", encoding='utf-8')
+    fo.write(word)
+    fo.write("\n")
+    fo.close()
 
-distance=np.dot(v1,v2)
+finally:
+    sentences = word2vec.Text8Corpus('dic.txt')
+    v1 = np.array(model[word])
 print(v1)
-print(v2)
-print(np.dot(v1,v2))
+'''
 
+def get_word2vec(word):
+    sentences = word2vec.Text8Corpus('dic.txt')
+    model = word2vec.Word2Vec(sentences, min_count=1)
+    try:
+        v1 = np.array(model[word])
+
+    except:
+        fo = open("dict.txt", "a", encoding='utf-8')
+        fo.write(word)
+        fo.write("\n")
+        fo.close()
+
+    finally:
+        sentences = word2vec.Text8Corpus('dict.txt')
+        model = word2vec.Word2Vec(sentences, min_count=1)
+        v1 = np.array(model[word])
+    return v1
+
+print(get_word2vec("信息系统"))

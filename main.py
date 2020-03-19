@@ -4,8 +4,8 @@ from gensim.models import word2vec
 
 #sentences = word2vec.Text8Corpus('dict.txt')
 #model = word2vec.Word2Vec(sentences,min_count = 1)
-simHigh=0.8#input("请输入相似度最大阈值")
-simLow=0.2#input("请输入相似度最小阈值")
+simHigh=0.8#float(input("请输入相似度最大阈值"))
+simLow=0.2#float(input("请输入相似度最小阈值"))
 keywords_numbers=2#input("请输入关键词个数")
 spare_number=1#input("请输入多备个数")
 
@@ -92,6 +92,7 @@ def get_keywords(ans):
     keywords = []  # 最终的关键词列表
     for i in range(len(TI)):
         high.append(TI[i][0])  # 将有IDF值的关键词按序添加在优先输出的关键词中
+
     for i in range(n + x):
         keywords.append(high[i])
     return keywords
@@ -110,7 +111,7 @@ def sentenceScore(sim, s, n):
             s1 = s0
         elif item < simLow:
             s1 = 0
-        elif simLow <= sim < simHigh:
+        elif simLow <= item < simHigh:
             s1 = item * s0
         senTotal += s1
     return senTotal
@@ -132,8 +133,8 @@ def DanJu(teaAnswers, stuAnswers):
     return Score
 
 
-tea_Answers=["物流系统","信息系统","船舶系统"]#input("请输入标准答案关键词")#输入标准答案关键词list
-stu_Answers="物流信息系统是一个好孩子"#input("请输入学生答案")#输入学生答案
+tea_Answers=["物流信息系统","物流作业系统"]#input("请输入标准答案关键词")#输入标准答案关键词list
+stu_Answers="物流信息系统无论如何也都很棒"#input("请输入学生答案")#输入学生答案
 #处理学生答案，得到学生答案关键词list
 stu_Answers=get_keywords(text_clean(stu_Answers))
 score=DanJu(tea_Answers, stu_Answers)
